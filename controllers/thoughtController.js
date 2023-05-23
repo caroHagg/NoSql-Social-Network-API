@@ -1,13 +1,13 @@
 const { Thought, User } = require('../models');
 
 module.exports = {
-  getThought(req, res) {
-    Video.find()
-      .then((videos) => res.json(videos))
+  getThoughts(req, res) { 
+    Thought.find()
+      .then((thoughts) => res.json(thoughts))
       .catch((err) => res.status(500).json(err));
   },
   getSingleThought(req, res) {
-    Video.findOne({ _id: req.params.videoId })
+    Thought.findOne({ _id: req.params.videoId })
       .then((video) =>
         !video
           ? res.status(404).json({ message: 'No video with that ID' })

@@ -7,20 +7,20 @@ const {
   deleteThought,
 } = require('../../controllers/thoughtController');
 
-// /api/videos
+// /api/thoughts
 router.route('/').get(getThoughts).post(createThought);
 
-// /api/videos/:videoId
+// /api/thoughts/:thoughtId
 router
   .route('/:thoughtId')
   .get(getSingleThought)
   .put(updateThought)
   .delete(deleteThought);
 
-// /api/videos/:videoId/responses
-//router.route('/:videoId/responses').post(addVideoResponse);
+// /api/thoughts/:thoughtId/responses
+//router.route('/:thoughtId/responses').post(addThoughtReactions);
 
-// /api/videos/:videoId/responses/:responseId
-//router.route('/:videoId/responses/:responseId').delete(removeVideoResponse);
+// /api/thoughts/:thoughtId/reactions/:reactionId
+//router.route('/:thoughtId/reactions/:reactionId').delete(removeThoughtReactions);
 
 module.exports = router;

@@ -1,12 +1,12 @@
-const { Video, User } = require('../models');
+const { Thought, User } = require('../models');
 
 module.exports = {
-  getVideos(req, res) {
+  getThought(req, res) {
     Video.find()
       .then((videos) => res.json(videos))
       .catch((err) => res.status(500).json(err));
   },
-  getSingleVideo(req, res) {
+  getSingleThought(req, res) {
     Video.findOne({ _id: req.params.videoId })
       .then((video) =>
         !video
@@ -16,8 +16,8 @@ module.exports = {
       .catch((err) => res.status(500).json(err));
   },
   // create a new video
-  createVideo(req, res) {
-    Video.create(req.body)
+  createThought(req, res) {
+    Thought.create(req.body)
       .then((video) => {
         return User.findOneAndUpdate(
           { _id: req.body.userId },
@@ -37,30 +37,30 @@ module.exports = {
         res.status(500).json(err);
       });
   },
-  updateVideo(req, res) {
-    Video.findOneAndUpdate(
-      { _id: req.params.videoId },
+  updateThought(req, res) {
+    Thought.findOneAndUpdate(
+      { _id: req.params.thoughtId },
       { $set: req.body },
       { runValidators: true, new: true }
     )
-      .then((video) =>
-        !video
-          ? res.status(404).json({ message: 'No video with this id!' })
-          : res.json(video)
+      .then((thought) =>
+        !thought
+          ? res.status(404).json({ message: 'No thought with this id!' })
+          : res.json(thought)
       )
       .catch((err) => {
         console.log(err);
         res.status(500).json(err);
       });
   },
-  deleteVideo(req, res) {
-    Video.findOneAndRemove({ _id: req.params.videoId })
-      .then((video) =>
-        !video
-          ? res.status(404).json({ message: 'No video with this id!' })
+  deleteThought(req, res) {
+    Thought.findOneAndRemove({ _id: req.params.thoughtId })
+      .then((thought) =>
+        !thought
+          ? res.status(404).json({ message: 'No thought with this id!' })
           : User.findOneAndUpdate(
-              { videos: req.params.videoId },
-              { $pull: { videos: req.params.videoId } },
+              { thoughts: req.params.thoughtId },
+              { $pull: { thoughts: req.params.thoughtId } },
               { new: true }
             )
       )
@@ -68,36 +68,36 @@ module.exports = {
         !user
           ? res
               .status(404)
-              .json({ message: 'Video created but no user with this id!' })
-          : res.json({ message: 'Video successfully deleted!' })
+              .json({ message: 'thought created but no user with this id!' })
+          : res.json({ message: 'thought successfully deleted!' })
       )
       .catch((err) => res.status(500).json(err));
   },
-  // Add a video response
-  addVideoResponse(req, res) {
-    Video.findOneAndUpdate(
-      { _id: req.params.videoId },
+  // Add a thought response
+  addThoughtResponse(req, res) {
+    thought.findOneAndUpdate(
+      { _id: req.params.thoughtId },
       { $addToSet: { responses: req.body } },
       { runValidators: true, new: true }
     )
-      .then((video) =>
-        !video
-          ? res.status(404).json({ message: 'No video with this id!' })
-          : res.json(video)
+      .then((thought) =>
+        !thought
+          ? res.status(404).json({ message: 'No thought with this id!' })
+          : res.json(thought)
       )
       .catch((err) => res.status(500).json(err));
   },
-  // Remove video response
-  removeVideoResponse(req, res) {
-    Video.findOneAndUpdate(
-      { _id: req.params.videoId },
-      { $pull: { reactions: { responseId: req.params.responseId } } },
+  // Remove thought response
+  removeThoughtResponse(req, res) {
+    Thought.findOneAndUpdate(
+      { _id: req.params.thoughtId },
+      { $pull: { reactions: { responseId: req.params.reactionId } } },
       { runValidators: true, new: true }
     )
-      .then((video) =>
-        !video
-          ? res.status(404).json({ message: 'No video with this id!' })
-          : res.json(video)
+      .then((thought) =>
+        !thought
+          ? res.status(404).json({ message: 'No thought with this id!' })
+          : res.json(thought)
       )
       .catch((err) => res.status(500).json(err));
   },

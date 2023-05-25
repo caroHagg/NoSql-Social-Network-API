@@ -13,13 +13,7 @@ const userSchema = new Schema(
       type: String,
       require:true,
       unique:true,
-      validate: {
-        validator: function(v) {
-          //iqcode and mongoose documentation
-          return [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/].test(v);
-        },
-        message: props => `${props.value} is not a valid email!`
-      }
+     match:/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
     },
     thoughts: [ {
       type: Schema.Types.ObjectId,
